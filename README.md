@@ -5,7 +5,7 @@ This repository contains the code and simulation output of the motivating exampl
 
 Download the repository by using:
 ```console
-git clone https://github.com/LindaNab/me_neo
+git clone https://github.com/LindaNab/me_neo_motivatingexample
 ```
 
 This script is tested on:
