@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 data/*
-scripts/output*
+scripts/output/*.o*
+scripts/output/*.png
 .DS_Store

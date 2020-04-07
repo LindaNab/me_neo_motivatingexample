@@ -1,0 +1,187 @@
+
+R version 3.5.0 (2018-04-23) -- "Joy in Playing"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> #############################################################
+> ## Internal validation sampling strategies for exposure 
+> ## measurement error correction 
+> ##
+> ## Data generating mechanisms for simulation study
+> ## lindanab4@gmail.com - 20200407
+> #############################################################
+> 
+> ##############################
+> # 0 - Load librairies
+> ##############################
+> 
+> ############################## 
+> # 1 - Prepare data for analysis
+> ##############################
+> data_path <- "./data/processed" 
+> data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
+> 
+> ############################## 
+> # 2 - Generating mechanisms
+> ##############################
+> # Distribution of sex
+> prop.table(table(data$sexe)) # sexe ~ binom(1, 0.53)
+
+     man    vrouw 
+0.470679 0.529321 
+> 
+> # Distribution of age
+> mean(data$leeftijd) # leeftijd ~ uniform(min = 45, max = 66)
+[1] 55.67593
+> quantile(data$leeftijd)
+  0%  25%  50%  75% 100% 
+  45   51   56   61   66 
+> png(file = "./scripts/output/histogram_age.png",
++     width = 600, height = 350)
+> hist(data$leeftijd)
+> dev.off()
+null device 
+          1 
+> 
+> # Distribution of TBF_z|leeftijd, sexe (TBF = vetpercentage)
+> tbf_lm <- lm(z_vetpercentage ~ sexe + leeftijd, 
++              data = data)
+> summary(tbf_lm)
+
+Call:
+lm(formula = z_vetpercentage ~ sexe + leeftijd, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.65563 -0.44563 -0.03897  0.40443  2.40004 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.513335   0.265663  -5.696 1.86e-08 ***
+sexevrouw    1.410612   0.055817  25.272  < 2e-16 ***
+leeftijd     0.013770   0.004697   2.932  0.00349 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.7088 on 645 degrees of freedom
+Multiple R-squared:  0.4992,	Adjusted R-squared:  0.4976 
+F-statistic: 321.4 on 2 and 645 DF,  p-value: < 2.2e-16
+
+> summary(tbf_lm)$sigma^2
+[1] 0.502373
+> 
+> # Distribution of VAT_z|sexe, leeftijd, TBF_z
+> vat_lm <- lm(z_MVAT ~ sexe + leeftijd + z_vetpercentage,
++ 	     data = data)
+> summary(vat_lm)
+
+Call:
+lm(formula = z_MVAT ~ sexe + leeftijd + z_vetpercentage, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.0263 -0.4323 -0.0903  0.3140  4.3398 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      0.365365   0.263446   1.387  0.16596    
+sexevrouw       -1.963573   0.076194 -25.771  < 2e-16 ***
+leeftijd         0.012106   0.004575   2.646  0.00834 ** 
+z_vetpercentage  0.851145   0.038100  22.340  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6858 on 644 degrees of freedom
+Multiple R-squared:  0.5318,	Adjusted R-squared:  0.5296 
+F-statistic: 243.8 on 3 and 644 DF,  p-value: < 2.2e-16
+
+> summary(vat_lm)$sigma^2
+[1] 0.4703616
+> # Gamma regression to obtain shape of MVAT|sexe, leeftijd, TBF_z
+> vat_gamma <- glm(MVAT ~ sexe + leeftijd + z_vetpercentage, 
++                  family = Gamma(link = "log"),
++                  data = data)
+> MASS::gamma.shape(vat_gamma)$alpha #6 
+[1] 6.080054
+> png(file = "./scripts/output/residuals_vat_lm.png",
++     width = 600, height = 350)
+> plot(density(vat_lm$residuals))
+> dev.off()
+null device 
+          1 
+> 
+> # Distribution of WC_z|VAT_z 
+> wc_lm <- lm(z_middelomtrek ~ z_MVAT, 
++             data = data)
+> summary(wc_lm)
+
+Call:
+lm(formula = z_middelomtrek ~ z_MVAT, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.74820 -0.43538 -0.00717  0.38565  2.15305 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.625e-17  2.561e-02    0.00        1    
+z_MVAT      7.586e-01  2.563e-02   29.59   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.652 on 646 degrees of freedom
+Multiple R-squared:  0.5755,	Adjusted R-squared:  0.5749 
+F-statistic: 875.8 on 1 and 646 DF,  p-value: < 2.2e-16
+
+> summary(wc_lm)$sigma^2
+[1] 0.4251441
+> 
+> # Distribution of ln_IR|VAT_z, sexe, leeftijd, TBF_z
+> ir_lm <- lm(ln_homa1IR ~ z_MVAT + sexe + leeftijd + z_vetpercentage, 
++             data = data)
+> summary(ir_lm)
+
+Call:
+lm(formula = ln_homa1IR ~ z_MVAT + sexe + leeftijd + z_vetpercentage, 
+    data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.3321 -0.3440  0.0272  0.3356  2.7380 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      0.506079   0.220242   2.298   0.0219 *  
+z_MVAT           0.234282   0.032894   7.122 2.85e-12 ***
+sexevrouw       -0.494756   0.090649  -5.458 6.88e-08 ***
+leeftijd         0.006828   0.003840   1.778   0.0759 .  
+z_vetpercentage  0.328159   0.042372   7.745 3.74e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.5725 on 643 degrees of freedom
+Multiple R-squared:  0.3647,	Adjusted R-squared:  0.3607 
+F-statistic: 92.28 on 4 and 643 DF,  p-value: < 2.2e-16
+
+> summary(ir_lm)$sigma^2
+[1] 0.3277579
+> 
+> proc.time()
+   user  system elapsed 
+  0.690   0.093   1.672 
