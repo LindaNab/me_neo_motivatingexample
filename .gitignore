@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-./data/*
+data/*
+scripts/output*
 .DS_Store

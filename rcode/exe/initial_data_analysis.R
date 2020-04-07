@@ -15,7 +15,7 @@
 # 1 - Prepare data for analysis
 ##############################
 data_path <- "./data/processed" 
-data <- readRDS(file = paste0(data_path, "ldrp.Rds"))
+data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
 # use data for analysis
 
 ############################## 
@@ -103,9 +103,9 @@ wc_lm <- lm(formula = ln_homa1IR ~ z_middelomtrek +
 summary(wc_lm)
 (exp(coef(wc_lm)[2]) - 1) * 100
 se_wc <- summary(wc_lm)$coef[2,2]
-wc_lower <- coef(wc_lm)[2] - qt(0.05 / 2, 2238, lower.tail = F) * se_wc
+wc_lower <- coef(wc_lm)[2] - qnorm(0.05 / 2, lower.tail = F) * se_wc
 (exp(wc_lower) - 1) * 100 
-wc_upper <- coef(wc_lm)[2] + qt(0.05 / 2, 2238, lower.tail = F) * se_wc
+wc_upper <- coef(wc_lm)[2] + qnorm(0.05 / 2, lower.tail = F) * se_wc
 (exp(wc_upper) - 1) * 100 
 
 ## REGRESSING ln_homa1IR ON z_MVAT, ADJUSTING FOR leeftijd, sexe, etnwhite, eduh, 
@@ -126,7 +126,7 @@ vat_lm <- lm(formula = ln_homa1IR ~ z_MVAT +
 summary(vat_lm)
 (exp(coef(vat_lm)[2]) - 1) * 100
 se_vat <- summary(vat_lm)$coef[2,2]
-vat_lower <- coef(vat_lm)[2] - qt(0.05 / 2, 2238, lower.tail = F) * se_vat
+vat_lower <- coef(vat_lm)[2] - qnorm(0.05 / 2, lower.tail = F) * se_vat
 (exp(vat_lower) - 1) * 100 
-vat_upper <- coef(vat_lm)[2] + qt(0.05 / 2, 2238, lower.tail = F) * se_vat
+vat_upper <- coef(vat_lm)[2] + qnorm(0.05 / 2, lower.tail = F) * se_vat
 (exp(vat_upper) - 1) * 100 
