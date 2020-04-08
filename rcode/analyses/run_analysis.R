@@ -79,7 +79,7 @@ get_seeds <- function(rep){
 }
 
 ############################## 
-# 3 - Simulation study in steps
+# 3 - Analysis in steps
 ##############################
 # Perform one run, i.e.: for one resampled data set, perform the 5x3 different 
 # analyses (see analysis_scenarios())

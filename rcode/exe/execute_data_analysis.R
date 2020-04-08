@@ -11,6 +11,7 @@
 # 0 - Load librairies + source code 
 ##############################
 source(file = "./rcode/analyses/run_analysis.R")
+source(file = "./rcode/dataconfig/summarise_analysis_output.R")
 data <- readRDS(file = "./data/processed/ldrp_fake.Rds")
 
 # Select datagen_scenarios and analysis_scenarios to be used
@@ -24,17 +25,6 @@ run_analysis(rep = 5,
              use_analysis_scenarios = use_analysis_scenarios)
 
 ##############################
-# 2 - Process simulation output 
+# 2 - Summarise output files
 ##############################
-# not run
-# process_sim_output()
-process_sim_output(use_datagen_scenarios = use_datagen_scenarios,
-                   use_analysis_scenarios = use_analysis_scenarios)
-
-##############################
-# 3 - Summarize processed simulation output 
-##############################
-# not run
-# summarize_sim()
-summarize_sim(use_datagen_scenarios = use_datagen_scenarios,
-              use_analysis_scenarios = use_analysis_scenarios)
+summarise_analysis(use_analysis_scenarios = use_analysis_scenarios)
