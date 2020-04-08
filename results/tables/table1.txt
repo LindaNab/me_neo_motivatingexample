@@ -1,0 +1,14 @@
+% latex table generated in R 3.5.1 by xtable 1.8-4 package
+% Wed Apr  8 23:44:09 2020
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+  \hline
+Method & Effect size (CI) \\ 
+  \hline
+Reference & 27\% (19\%-35\%) \\ 
+  Naive & 30\% (18\%-43\%) \\ 
+   \hline
+\end{tabular}
+\end{table}
+

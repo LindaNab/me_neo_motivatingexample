@@ -13,9 +13,9 @@
 library(xtable)
 source(file = "./rcode/analyses/analysis_scen.R")
 sum_analysis <- 
-  readRDS(file = "./data/summarised/summary.Rds")
+  readRDS(file = "./results/summaries/summary.Rds")
 sum_init_analysis <-
-  readRDS(file = "./data/summarised/summary_init_analysis.Rds")
+  readRDS(file = "./results/summaries/summary_init_analysis.Rds")
 
 ##############################
 # 1 - Helper functions 
