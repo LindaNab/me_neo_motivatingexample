@@ -2,7 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-data/*
+data/raw/*
+data/processed/ldrp.Rds
 scripts/output/*.o*
 scripts/output/*.png
 .DS_Store
