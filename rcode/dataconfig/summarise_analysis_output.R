@@ -10,8 +10,7 @@
 ##############################
 # Some notes on the format of the *summarised* data from .data/output
 ##############################
-# The table contains #datagen_scenarios x #sampling_strat x #method x 
-# #size_valdata = 50 x 3 x 5 x 4 = 3000 rows, in this order:
+# The content of the summary table include:
 # sampling_strat   method
 # random           complete_case
 # uniform          complete_case
@@ -111,8 +110,8 @@ save_summary <- function(summary, summarised_dir){
 # 3 - Work horse ----
 ##############################
 summarise_analysis <- function(use_analysis_scenarios = analysis_scenarios(),
-                               output_dir = "./data/output",
-                               summarised_dir = "./data/summarised"){
+                               output_dir = "./results/output",
+                               summarised_dir = "./results/summaries"){
   # summary will inculde all different analysis_scenarios times the different 
   # datagen_scenarios
   # init data.table for summary
