@@ -47,11 +47,10 @@ get_result <- function(data,
 ##############################
 analyse_data <- function(analysis_scenario, 
                          data){
-  size_valdata <- as.numeric(analysis_scenario[['size_valdata']])
   sampling_strat <- analysis_scenario[['sampling_strat']]
   method <- analysis_scenario[['method']]
   data <- select_valdata(data = data, 
-                         size_valdata = size_valdata, 
+                         size_valdata = 0.4, 
                          use_variable = "WC",
                          sampling_strat = sampling_strat)
   result <- get_result(data, method)

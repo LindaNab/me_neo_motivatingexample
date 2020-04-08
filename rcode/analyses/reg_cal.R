@@ -15,8 +15,23 @@ reg_cal <- function(data){
   beta_star <- naive_fit$beta
   # fit calibration model
   # select subjects of whom VAT is measured (complete cases)
-  cal_mod <- lm(VAT ~ WC + TBF + age + sex,
-                data = subset(data, in_valdata == 1))
+  cal_mod <- lm(
+    formula = z_MVAT ~
+      z_middelomtrek +
+      leeftijd +
+      sexe +
+      etnwhite +
+      eduh +
+      cursmk +
+      formsmk +
+      alc_g +
+      leismeth +
+      sexhormone +
+      perimenopausal +
+      premenopausal +
+      z_vetpercentage,
+    data = subset(data, in_valdata == 1)
+  )
   beta <- correct_beta_star(beta_star, cal_mod)
   vcov_beta <- get_vcov_beta(naive_fit, cal_mod)
   # output is a list with the corrected coef (beta) and its variance
@@ -45,16 +60,16 @@ get_vcov_beta <- function(naive_fit, cal_mod){
   vec_measerr_mat <- c(get_measerr_mat(cal_mod))
   vec <- c(unname(change_order_coefs(beta_star)), 
            vec_cal_mat(vec_measerr_mat))
-  # The covariance matrix of vec is of size 30 x 30
+  # The covariance matrix of vec is of size 14 + 196 x 14 + 196
   # We assume that there is no covariance between beta_star and vec_cal_mat 
   # Thus, vcov(vec) = (vcov(beta_star), 0
   #                   0,               vcov(vec_cal_mat)) # see step 2
   vcov_vec_cal_mat <- get_vcov_vec_cal_mat(cal_mod)
-  vcov_vec <- matrix(0, nrow = 30, ncol = 30)
-  vcov_vec[1:5, 1:5] <- change_order_vcov(naive_fit$vcov)
-  vcov_vec[6:30, 6:30] <- vcov_vec_cal_mat
+  vcov_vec <- matrix(0, nrow = 210, ncol = 210)
+  vcov_vec[1:14, 1:14] <- change_order_vcov(naive_fit$vcov)
+  vcov_vec[15:210, 15:210] <- vcov_vec_cal_mat
   # We assume that vec is multivariate normal with mean vec and cov vcov_vec
-  # Now, there is a function f: R^30 -> R^5 so that
+  # Now, there is a function f: R^210 -> R^14 so that
   # f(vec) = beta 
   # Then, using the delta method vcov(beta) = Jf %*% vcov_vec %*% t(Jf)
   f <- function(vec, nb){
@@ -65,7 +80,7 @@ get_vcov_beta <- function(naive_fit, cal_mod){
     }
     beta
   }
-  jf <- numDeriv::jacobian(f, vec, nb = 5) 
+  jf <- numDeriv::jacobian(f, vec, nb = 14) 
   vcov_beta <- jf %*% vcov_vec %*% t(jf)
   vcov_beta <- change_order_vcov(vcov_beta)
   colnames(vcov_beta) <- names(beta_star)
@@ -147,7 +162,7 @@ get_vcov_cal_mod <- function(cal_mod){
 }
 # Function that exchanges second and first coef
 change_order_coefs <- function(coefs){
-  coefs <- c(coefs[2], coefs[1], coefs[3:5])
+  coefs <- c(coefs[2], coefs[1], coefs[3:14])
 }
 # Function that exchanges second and first entry of vcov matrix
 change_order_vcov <- function(m){

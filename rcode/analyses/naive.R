@@ -7,8 +7,23 @@
 #############################################################
 naive <- function(data){
   # using WC io VAT
-  fit <- lm(IR_ln ~ WC + TBF + age + sex, 
-            data = data)
+  fit <- lm(
+    formula = ln_homa1IR ~
+      z_middelomtrek +
+      leeftijd +
+      sexe +
+      etnwhite +
+      eduh +
+      cursmk +
+      formsmk +
+      alc_g +
+      leismeth +
+      sexhormone +
+      perimenopausal +
+      premenopausal +
+      z_vetpercentage,
+    data = data
+  )
   beta <- fit$coefficients
   vcov_beta <- vcov(fit)
   out <- list(beta = beta, vcov = vcov_beta)
