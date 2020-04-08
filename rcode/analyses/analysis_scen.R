@@ -19,7 +19,6 @@ analysis_scenarios <- function(){
                       "uniform", 
                       "extremes")
   method <- c("complete_case",
-              "naive",
               "reg_cal",
               "efficient_reg_cal",
               "inadm_reg_cal")
