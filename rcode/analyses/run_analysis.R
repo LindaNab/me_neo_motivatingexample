@@ -126,7 +126,8 @@ run_analysis <- function(rep = 500,
     "method" = 
       unique(use_analysis_scenarios[['method']])
   )
-  create_data_dirs(levels = levels)
+  create_data_dirs(levels = levels,
+                   data_dir = output_dir)
   for(i in 1:rep){
     perform_one_run(data = data,
                     seed = seeds[i],
