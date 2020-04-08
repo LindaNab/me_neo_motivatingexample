@@ -28,7 +28,7 @@ inadm_reg_cal <- function(data){
   # make copy of data that will be imputed
   data_imp <- data
   # impute fitted values if VAT is missing
-  data_imp$VAT[data$in_valdata == 0] <- VAT_fitted[data$in_valdata == 0]
+  data_imp$z_MVAT[data$in_valdata == 0] <- VAT_fitted[data$in_valdata == 0]
   data_imp$in_valdata <- 1
   # perform complete case analysis on imputed data
   cc_fit <- complete_case(data_imp)
