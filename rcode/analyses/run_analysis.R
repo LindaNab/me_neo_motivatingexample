@@ -120,7 +120,7 @@ run_analysis <- function(rep = 500,
                          data,
                          use_analysis_scenarios = analysis_scenarios(),
                          seeds = get_seeds(rep),
-                         output_dir = "./data/output") {
+                         output_dir = "./results/output") {
   # levels of data_dirs (see the described structure above)
   levels <- list(
     "method" = 
