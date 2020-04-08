@@ -24,9 +24,7 @@ analysis_scenarios <- function(){
               "efficient_reg_cal",
               "inadm_reg_cal")
   analyse_scenarios <- expand.grid(sampling_strat,
-                                   method,
-                                   size_valdata)
+                                   method)
   colnames(analyse_scenarios) <- c("sampling_strat",
-                                   "method",
-                                   "size_valdata")
+                                   "method")
   return(analyse_scenarios)}

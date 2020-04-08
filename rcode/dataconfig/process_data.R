@@ -3,7 +3,7 @@
 ## measurement error correction
 ## Motivating example
 ##
-## 0 - Load and clean NEO Leiderdorp data for analysis
+## Load and clean NEO Leiderdorp data for analysis
 ## lindanab4@gmail.com - 20200407
 #############################################################
 

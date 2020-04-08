@@ -1,8 +1,9 @@
 #############################################################
 ## Internal validation sampling strategies for exposure 
 ## measurement error correction
+## Motivating Example
 ##
-## Analyse the data, it samples validation data of the correct size, 
+## Analyse the data 
 ## lindanab4@gmail.com - 20200303
 #############################################################
 
@@ -46,22 +47,17 @@ get_result <- function(data,
 # 2 - Work horse that samples data and pulls the result
 ##############################
 analyse_data <- function(analysis_scenario, 
-                         data){
+                         data,
+                         seed){
   sampling_strat <- analysis_scenario[['sampling_strat']]
   method <- analysis_scenario[['method']]
   data <- select_valdata(data = data, 
                          size_valdata = 0.4, 
-                         use_variable = "WC",
-                         sampling_strat = sampling_strat)
+                         use_variable = "z_middelomtrek",
+                         sampling_strat = sampling_strat,
+                         seed = seed)
   result <- get_result(data, method)
   result <- c(result,
               "n_valdata" = NROW(data[data$in_valdata == 1,]))
   result
-}
-# calc explained variance measurement error model
-get_R_squared <- function(data){
-  fit <- lm(WC ~ VAT, data = data)
-  sum_fit <- summary(fit)
-  R_squared <- summary(fit)$r.squared
-  R_squared
 }
