@@ -10,6 +10,7 @@
 ##############################
 # 0 - Load librairies
 ##############################
+library(data.table)
 
 ############################## 
 # 1 - Prepare data for analysis
