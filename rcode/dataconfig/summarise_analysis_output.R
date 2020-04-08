@@ -36,7 +36,10 @@ eval_param <- function(){
   eval_param <- c("beta",
                   "mod_var_beta",
                   "emp_var_beta",
-                  "n_valdata")
+                  "n_valdata", 
+                  "effect_est",
+                  "ci_lower",
+                  "ci_upper")
   eval_param
 }
 ##############################
@@ -88,6 +91,16 @@ fill_row_with_eval_param <- function(row_num, summary, output){
   summary[row_num, mod_var_beta := mean(output$var_beta)]
   summary[row_num, emp_var_beta := var(output$beta)]
   summary[row_num, n_valdata := mean(output$n_valdata)]
+  beta_lower <- mean(output$beta) - 
+    qnorm(0.05 / 2, lower.tail = F) * sqrt(var(output$beta))
+  beta_upper <- mean(output$beta) + 
+    qnorm(0.05 / 2, lower.tail = F) * sqrt(var(output$beta)) 
+  effect_est_par <- (exp(mean(output$beta)) - 1) * 100
+  ci_lower_par <- (exp(beta_lower) - 1) * 100
+  ci_upper_par <- (exp(beta_upper) - 1) * 100
+  summary[row_num, effect_est := effect_est_par]
+  summary[row_num, ci_lower := ci_lower_par]
+  summary[row_num, ci_upper := ci_upper_par]
 }
 save_summary <- function(summary, summarised_dir){
   output_file <- paste0(summarised_dir, "/summary.Rds")
