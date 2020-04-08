@@ -108,8 +108,9 @@ wc_lower <- coef(wc_lm)[2] - qnorm(0.05 / 2, lower.tail = F) * se_wc
 wc_upper <- coef(wc_lm)[2] + qnorm(0.05 / 2, lower.tail = F) * se_wc
 (exp(wc_upper) - 1) * 100 
 
-## REGRESSING ln_homa1IR ON z_MVAT, ADJUSTING FOR leeftijd, sexe, etnwhite, eduh, 
-## smoking, alc_g, leismeth, vetpercentage and in women additionally for menopausal state and use of estrogens
+## REGRESSING ln_homa1IR ON z_MVAT, ADJUSTING FOR leeftijd, sexe, etnwhite, eduh 
+## smoking, alc_g, leismeth, vetpercentage and in women additionally for 
+## menopausal state and use of estrogens
 vat_lm <- lm(formula = ln_homa1IR ~ z_MVAT + 
                                     leeftijd + 
                                     sexe +
@@ -130,3 +131,26 @@ vat_lower <- coef(vat_lm)[2] - qnorm(0.05 / 2, lower.tail = F) * se_vat
 (exp(vat_lower) - 1) * 100 
 vat_upper <- coef(vat_lm)[2] + qnorm(0.05 / 2, lower.tail = F) * se_vat
 (exp(vat_upper) - 1) * 100 
+
+## Create summary of results
+# init summary object
+summary <- data.table(method = c("reference", "naive"),
+                      beta = numeric(2),
+                      var_beta = numeric(2),
+                      effect_est = numeric(2),
+                      ci_lower = numeric(2),
+                      ci_upper = numeric(2))
+# fill summary object for reference analysis (1st row)
+summary[1, beta := coef(vat_lm)[2]]
+summary[1, var_beta := se_vat^2]
+summary[1, effect_est :=  (exp(coef(vat_lm)[2]) - 1) * 100]
+summary[1, ci_lower := (exp(vat_lower) - 1) * 100 ]
+summary[1, ci_upper := (exp(vat_upper) - 1) * 100 ]
+# fill summary object for naive analysis (2nd row)
+summary[2, beta := coef(wc_lm)[2]]
+summary[2, var_beta := se_wc^2]
+summary[2, effect_est :=  (exp(coef(wc_lm)[2]) - 1) * 100]
+summary[2, ci_lower := (exp(wc_lower) - 1) * 100 ]
+summary[2, ci_upper := (exp(wc_upper) - 1) * 100 ]
+# save summary in RDS file in ./results/summaries
+saveRDS(summary, "./results/summaries/summary_init_analysis.Rds")
