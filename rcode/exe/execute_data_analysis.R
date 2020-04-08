@@ -12,7 +12,7 @@
 ##############################
 source(file = "./rcode/analyses/run_analysis.R")
 source(file = "./rcode/dataconfig/summarise_analysis_output.R")
-data <- readRDS(file = "./data/processed/ldrp_fake.Rds")
+data <- readRDS(file = "./data/processed/ldrp.Rds")
 
 # Select datagen_scenarios and analysis_scenarios to be used
 use_analysis_scenarios <- analysis_scenarios()
@@ -20,7 +20,7 @@ use_analysis_scenarios <- analysis_scenarios()
 ##############################
 # 1 - Run analysis
 ##############################
-run_analysis(rep = 5,
+run_analysis(rep = 500,
              data = data,
              use_analysis_scenarios = use_analysis_scenarios)
 
