@@ -14,7 +14,7 @@
 # 1 - Prepare data for analysis
 ##############################
 data_path <- "./data/processed" 
-data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
+data <- readRDS(file = paste0(data_path, "/ldrp_fake.Rds"))
 
 ############################## 
 # 2 - Generating mechanisms
@@ -56,6 +56,10 @@ wc_lm <- lm(z_middelomtrek ~ z_MVAT,
             data = data)
 summary(wc_lm)
 summary(wc_lm)$sigma^2
+png(file = './scripts/output/wc_vat.png',
+    with = 600, height = 350)
+plot(data$z_MVAT, data$z_middelomtrek)
+dev.off()
 
 # Distribution of ln_IR|VAT_z, sexe, leeftijd, TBF_z
 ir_lm <- lm(ln_homa1IR ~ z_MVAT + sexe + leeftijd + z_vetpercentage, 
