@@ -11,6 +11,7 @@
 # 0 - Load librairies + source code 
 ##############################
 library(xtable)
+library(taRifx)
 source(file = "./rcode/analyses/analysis_scen.R")
 sum_analysis <- 
   readRDS(file = "./results/summaries/summary.Rds")
@@ -29,7 +30,7 @@ effect_est_and_ci <- function(row_of_summary){
 }
 
 ##############################
-# 3 - Create table 1
+# 2 - Create table 1
 ##############################
 # Select values needed from summary object
 table1 <-
@@ -39,20 +40,16 @@ table1 <-
                         "ci_upper")]
 # Format estimates from analysis
 table1 <- cbind(table1[, c("method")],
+                c("", ""),
                 apply(table1,
                       1,
-                      FUN = effect_est_and_ci))
+                      FUN = effect_est_and_ci),
+                c("", ""))
+table1 <- as.data.frame(table1, stringsAsFactors = F)
 # Change columnames 
-colnames(table1) <- c("Method", "Effect size (CI)")
-# Change rownames
-table1$Method <- c("Reference", 
+colnames(table1) <- c("Method","", "Effect size (CI)", "")
+table1$Method <- c("Reference",
                    "Naive")
-# Create TeX table
-table1_xtable <- print(xtable(table1), 
-                       include.rownames = FALSE)
-file_con <- file("./results/tables/table1.txt")
-writeLines(table1_xtable, file_con)
-close(file_con)
 
 ##############################
 # 3 - Create table 2
@@ -74,16 +71,24 @@ table2 <- reshape(table2,
                   idvar = "method",
                   timevar = "sampling_strat",
                   direction = "wide")
+table2 <- unfactor.data.frame(table2)
 # Change columnames 
-colnames(table2) <- c("Method", "Random", "Uniform", "Extremes")
+colnames(table2) <- c("Method","", "Effect size (CI)", "")
+table2 <- rbind(c("", "Random", "Uniform", "Extremes"), 
+                table2)
 # Change rownames
-table2$Method <- c("Complete case", 
+table2$Method <- c("", 
+                   "Complete case", 
                    "Regression calibration", 
                    "Efficient regression calibration",
                    "Inadmissible regression calibration")
-# Create TeX table
-table2_xtable <- print(xtable(table2), 
-                       include.rownames = FALSE)
-file_con <- file("./results/tables/table2.txt")
-writeLines(table2_xtable, file_con)
+
+# Create TeX table combining table1 and table2
+caption <- "Estimated association between visceral adipose tissue (VAT) and insulin resistance using different methods to deal with the induced measurement error if VAT measures are replaced by WC measures"
+table <- rbind(table1, table2)
+table_xtable <- print(xtable(table,
+                             caption = caption), 
+                      include.rownames = FALSE)
+file_con <- file("./results/tables/table1.txt")
+writeLines(table_xtable, file_con)
 close(file_con)
