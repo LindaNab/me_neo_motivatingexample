@@ -48,8 +48,13 @@ create_bins <- function(n_bins, n_each_bin, data, use_variable, n_valdata){
 # counts the number of subjects in the data between the bounds of that bin 
 # (n_data)
 count_n_data_bin <- function(bounds_bin, data, use_variable){
-  condition <- data[use_variable] < bounds_bin[2] & 
-    data[use_variable] >= bounds_bin[1] 
+  if (max(data[use_variable]) == bounds_bin[2]){
+    condition <- data[use_variable] >= bounds_bin[1] &
+      data[use_variable] <= bounds_bin[2] 
+  } else { 
+    condition <- data[use_variable] >= bounds_bin[1] &
+      data[use_variable] < bounds_bin[2]
+  }
   NROW(data[condition,])
 }
 # counts the number of subjects that should be sampled in the validation data 
@@ -85,8 +90,13 @@ update_n_each_bin <- function(n_each_bin, bins, n_valdata){
 # selects the row numbers of the subjects that will be included in the 
 # validation sample sampled at random
 select_subjects_uniform <- function(bin, data, use_variable){
-  in_bin <- data[use_variable] >= bin[["lower_bound"]] & 
-    data[use_variable] < bin[["upper_bound"]]
+  if (max(data[use_variable]) == bin[["upper_bound"]]){
+    in_bin <- data[use_variable] >= bin[["lower_bound"]] & 
+      data[use_variable] <= bin[["upper_bound"]]
+  } else{
+    in_bin <- data[use_variable] >= bin[["lower_bound"]] & 
+      data[use_variable] < bin[["upper_bound"]]
+  }
   n_valdata_bin <- bin[["n_valdata_bin"]]
   sample(which (in_bin), n_valdata_bin)
 }
