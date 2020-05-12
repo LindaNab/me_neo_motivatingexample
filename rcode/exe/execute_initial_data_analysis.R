@@ -133,6 +133,23 @@ vat_lower <- coef(vat_lm)[2] - qnorm(0.05 / 2, lower.tail = F) * se_vat
 vat_upper <- coef(vat_lm)[2] + qnorm(0.05 / 2, lower.tail = F) * se_vat
 (exp(vat_upper) - 1) * 100 
 
+## Is there perhaps a relation between ln_homa1IR and z_middelomtrek, given
+## all other covariates?
+vat_lm <- lm(formula = ln_homa1IR ~ z_MVAT + 
+               leeftijd + 
+               sexe +
+               etnwhite + 
+               eduh +
+               cursmk +
+               formsmk +
+               alc_g + 
+               leismeth + 
+               sexhormone +
+               perimenopausal +
+               premenopausal +
+               z_vetpercentage +
+               z_middelomtrek, data = data)
+
 ## Create summary of results
 # init summary object
 summary <- data.table(method = c("reference", "naive"),
