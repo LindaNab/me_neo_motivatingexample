@@ -14,7 +14,7 @@ All end scripts can be found in [./rcode/exe](./rcode/exe).
 * The script [./rcode/exe/cleanup_datadir.R](./rcode/exe/cleanup_datadir.R) can be used if you were to rerun the resampling study and like to remove the .Rds files and directories in [./results/output](./results/output).
 
 ## Tables
-To recreate Table 1 from the manuscript, run the code in [./rcode/tabular/create_tables.R](./rcode/tabular/create_tables.R). The script saves the text file in [./results/tables/table1.txt](./results/tables/table1.txt). 
+To recreate Table 1 from the manuscript, run the code in [./rcode/tabular/create_tables.R](./rcode/tabular/create_tables.R). The script saves a LaTeX compatible table in [./results/tables/table1.txt](./results/tables/table1.txt). 
 
 ## Figures
 To recreate Figure 2 from the manuscript (the scatter histograms), run the code in [./rcode/visualisation/create_scatterhist.R](./rcode/visualisation/create_scatterhist.R). Subsequently, the script saves 3 .png files in [./results/figures](./results/figures).
