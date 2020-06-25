@@ -74,8 +74,8 @@ table2 <- reshape(table2,
 table2 <- unfactor.data.frame(table2)
 # Change columnames 
 colnames(table2) <- c("Method","", "Effect size (CI)", "")
-table2 <- rbind(c("", "Random", "Uniform", "Extremes"), 
-                table2)
+table2 <- rbind.data.frame(c("", "Random", "Uniform", "Extremes"), 
+                           table2)
 # Change rownames
 table2$Method <- c("", 
                    "Complete case", 
