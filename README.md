@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/253829214.svg)](https://zenodo.org/badge/latestdoi/253829214)
+
 # The me_neo_motivatingexample repository
 
 ## Version 0.1.0
