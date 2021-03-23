@@ -1,7 +1,7 @@
 # The me_neo_motivatingexample repository
 
 ## Version 0.1.0
-This repository contains the code and simulation output of the motivating example accompanying the manuscript 'Internal validation data sampling strategies for exposure measurement error correction:  a study of visceral adipose tissue measurements replaced by waist circumference measurements' by Linda Nab et al.
+This repository contains the code and simulation output of the motivating example accompanying the manuscript 'Internal validation data sampling strategies for exposure measurement error correction: a study of visceral adipose tissue measures replaced by waist circumference measures' by Linda Nab et al.
 
 ## Usage
 The raw data is saved in the directory [./data/raw](./data/raw). The raw data is processed and saved in [./data/processed](./data/processed). The data is processed using the script [./rcode/dataconfig/process_data.R](./rcode/dataconfig/process_data.R). These data sets are not available on the public repository, but instead, a fake processed data set is created and can be found in: [./data/processed/ldrp_fake.Rds](./data/processed/ldrp_fake.Rds).
