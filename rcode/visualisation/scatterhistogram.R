@@ -19,7 +19,7 @@ source("./rcode/analyses/sample_valdata.R")
 # 1 - Prepare data for visualisation
 ##############################
 data_path <- "./data/processed" 
-data <- readRDS(file = paste0(data_path, "/ldrp_fake.Rds"))
+data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
 # use data for analysis
 data_random <- select_valdata(
   data = data,
