@@ -2,7 +2,7 @@
 
 # The me_neo_motivatingexample repository
 
-## Version 0.1.0
+## Version 1.0.0
 This repository contains the code and simulation output of the motivating example accompanying the manuscript 'Internal validation data sampling strategies for exposure measurement error correction: a study of visceral adipose tissue measures replaced by waist circumference measures' by Linda Nab et al.
 
 ## Usage
@@ -19,7 +19,7 @@ All end scripts can be found in [./rcode/exe](./rcode/exe).
 To recreate Table 1 from the manuscript, run the code in [./rcode/tabular/create_tables.R](./rcode/tabular/create_tables.R). The script saves a LaTeX compatible table in [./results/tables/table1.txt](./results/tables/table1.txt). 
 
 ## Figures
-To recreate Figure 2 from the manuscript (the scatter histograms), run the code in [./rcode/visualisation/create_scatterhist.R](./rcode/visualisation/create_scatterhist.R). Subsequently, the script saves 3 .png files in [./results/figures](./results/figures).
+To recreate Figure 2 from the manuscript (the scatterplot), run the code in [./rcode/visualisation/create_scatterhist.R](./rcode/visualisation/create_scatterhist.R). Subsequently, the script saves one .pdf file in [./results/figures](./results/figures). Note that the data is not publicly available, but that alternatively, the synthetic data in [./data/processed/ldrp_fake.Rds](./data/processed/ldrp_fake.Rds) can be used.
 
 ## Instructions
 Download the repository by using:
