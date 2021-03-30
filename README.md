@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/253829214.svg)](https://zenodo.org/badge/latestdoi/253829214)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4648836.svg)](https://doi.org/10.5281/zenodo.4648836)
 
 # The me_neo_motivatingexample repository
 
