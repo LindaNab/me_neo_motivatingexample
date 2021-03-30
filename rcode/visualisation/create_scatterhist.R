@@ -18,7 +18,7 @@ source("./rcode/visualisation/scatterhistogram.R") # code of scatterhistogram
 # 1 - Prepare data for visualisation
 ##############################
 data_path <- "./data/processed" 
-data <- readRDS(file = paste0(data_path, "/ldrp_fake.Rds"))
+data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
 # use data for analysis
 
 data_random <- select_valdata(
@@ -42,36 +42,3 @@ data_extremes <- select_valdata(
   sampling_strat = "extremes",
   seed = 20200508
 )
-# make bins for uniform plot
-# total number of subjects in data
-n <- NROW(data)
-# desired  number of subjects in valdata
-n_valdata <- ceiling(n * 0.4)
-n_bins <- 10
-n_each_bin <- round(n_valdata / n_bins) # possibly less people included in
-# validation sample due to rounding
-bins <-
-  create_bins(n_bins, 
-              n_each_bin, 
-              data, 
-              use_variable = "z_middelomtrek", 
-              n_valdata)
-
-##############################
-# 2 - Create and save scatterhistograms
-##############################
-png(paste0("./results/figures", "/scatterhist_random.png"),
-    width = 6, height = 4, units = 'in', res = 250)
-pdf(file = "new.pdf",
-    family = "Arial",
-    pointsize = 10)
-create_scatterhist(data_random, bins = bins)
-dev.off()
-png(paste0("./results/figures", "/scatterhist_uniform.png"),
-    width = 6, height = 4, units = 'in', res = 250)
-create_scatterhist(data_uniform, uniform = T, bins = bins)
-dev.off()
-png(paste0("./results/figures", "/scatterhist_extremes.png"),
-    width = 6, height = 4, units = 'in', res = 250)
-create_scatterhist(data_extremes, bins = bins)
-dev.off()

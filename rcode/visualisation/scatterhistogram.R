@@ -62,8 +62,8 @@ create_scatterplot <- function(data,
         points(z_MVAT, z_middelomtrek,
                pch = 1))
 }
-pdf("new.pdf", width = 3, height = 9,
-    pointsize = 9, family = "Arial")
+pdf("./results/figures/scatterplot_samplingstrats.pdf", width = 3, height = 9,
+    pointsize = 8)
 par(mar = c(4, 5, 2, 1),
     xpd = NA,
     mfrow = c(3, 1),
