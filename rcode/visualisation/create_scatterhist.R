@@ -18,7 +18,7 @@ source("./rcode/visualisation/scatterhistogram.R") # code of scatterhistogram
 # 1 - Prepare data for visualisation
 ##############################
 data_path <- "./data/processed" 
-data <- readRDS(file = paste0(data_path, "/ldrp.Rds"))
+data <- readRDS(file = paste0(data_path, "/ldrp_fake.Rds"))
 # use data for analysis
 
 data_random <- select_valdata(
@@ -62,6 +62,9 @@ bins <-
 ##############################
 png(paste0("./results/figures", "/scatterhist_random.png"),
     width = 6, height = 4, units = 'in', res = 250)
+pdf(file = "new.pdf",
+    family = "Arial",
+    pointsize = 10)
 create_scatterhist(data_random, bins = bins)
 dev.off()
 png(paste0("./results/figures", "/scatterhist_uniform.png"),
